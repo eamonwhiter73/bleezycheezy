@@ -48,11 +48,11 @@ def mine():
     last_proof = last_block['proof']
     proof = blockchain.proof_of_work(last_proof)
 
-    if 'stopped' == proof:
-        return jsonify({'message': 'mining stopped by new block'}), 200
-        print('\n //// mining was stopped....should restart')
-    else:
+    if proof == 'stopped':
 
+        return jsonify({ 'message': 'stopped' }), 200
+
+    else:
         # We must receive a reward for finding the proof.
         # The sender is "0" to signify that this node has mined a new coin.
         blockchain.new_transaction(
@@ -105,19 +105,15 @@ def validate():
     last_block = json.loads(request.get_json()['last_block'])
 
     if blockchain.valid_proof(last_block['proof'], this_block['proof']):
-
-        if this_block['index'] - len(blockchain.chain) == 1:
-            blockchain.set_break_cycle()
-            response = { 'add': True }
+        if this_block['index'] - blockchain.chain[-1]['index'] == 1:
             blockchain.chain.append(this_block)
-
-        elif this_block['index'] - len(blockchain.chain) > 1:
-            blockchain.set_break_cycle()
             response = { 'add': True }
 
-        elif this_block['index'] == len(blockchain.chain):
-            if this_block['timestamp'] < blockchain.chain[len(blockchain.chain) - 1]['timestamp']:
-                blockchain.set_break_cycle()
+        elif this_block['index'] - blockchain.chain[-1]['index'] > 1:
+            response = { 'add': True }
+
+        elif this_block['index'] == blockchain.chain[-1]['index']:
+            if this_block['timestamp'] < blockchain.chain[-1]['timestamp']:
                 blockchain.subtract_block()
                 blockchain.chain.append(this_block)
                 response = { 'add': True }
@@ -142,16 +138,6 @@ def full_chain():
 def chain_length():
     response = {
         'length': len(blockchain.chain)
-    }
-    return jsonify(response), 200
-
-@app.route('/set_break_cycle', methods=['GET'])
-def set_break_cycle():
-
-    blockchain.set_break_cycle()
-
-    response = {
-        'message': 'set_break_cycle used'
     }
     return jsonify(response), 200
 
@@ -229,6 +215,17 @@ def subtract_block():
 
     response = {
         'result': "block removed"
+    }
+
+    return jsonify(response), 200
+
+@app.route('/set_break_cycle', methods=['GET'])
+def set_break_cycle():
+
+    blockchain.set_break_cycle()
+
+    response = {
+        'message': 'set_break_cycle used'
     }
 
     return jsonify(response), 200

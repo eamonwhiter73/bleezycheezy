@@ -20,13 +20,11 @@ connections = []
 mining = True
 mined_block = ''
 previous_block = ''
-did_mine_block = False
 i_need_the_chain = True
 #first_time = True
 replies = []
 my_chain_length = 0
 invalid_replies = []
-just_sent_out_valid = False
 
 def get_connections():
     return connections
@@ -152,76 +150,28 @@ def by_length_key(result):
 def by_connection_length_key(connection):
     return connection['length']
 
+def search_for_connection(reply, address):
+    found = False
+    for index, item in enumerate(connections):
+        if item['ip'] == address:
+            item['port'] = reply
+            found = True
+            print('\n //// Found ip in my connections!\n')
+
+    return found
+
 while 1:
-
-    if i_need_the_chain:
-        r = requests.get('http://0.0.0.0:'+port+'/previous')
-        previous_block = r.text
-        result = put_chains_together()
-
-        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        r = requests.post('http://0.0.0.0:'+port+'/add_chain', json = {'chain': result}, headers=headers)
-        print("\n ////new_chain_length_and_chain\n")
-        print(r.text)
-
-        i_need_the_chain = False
-        mining = True
-
-    if (mining and not i_need_the_chain) or not (len(node.inbound) > len(connections)):
-        reqs = [
-            grequests.get('http://0.0.0.0:'+port+'/previous'),
-            grequests.get('http://0.0.0.0:'+port+'/mine')
-        ]
-
-        results = grequests.map(reqs, exception_handler=exception_handler)
-
-        previous_block = results[0].content.decode()
-        mined_block = results[1].content.decode()
-
-        if just_sent_out_valid:
-            r = requests.get('http://0.0.0.0:'+port+'/set_break_cycle')
-            just_sent_out_valid = False
-
-        print('\n //// next to last block mined\n')
-        print(previous_block)
-        print('\n //// last block mined\n')
-        print(mined_block)
-
-        if json.loads(mined_block)['message'] == 'mining stopped by new block':
-            mining = True
-            did_mine_block = False
-        else:
-            mining = False
-            did_mine_block = True
-
     for con in node:
         con.send_line(port)
-
-        if did_mine_block:
-            print('\n //// sending out my block!\n')
-            if 'mining stopped by new block' != json.loads(mined_block)['message']:
-                mining = False
-                con.send_line(mined_block+';'+previous_block+';'+port)
-            else:
-                print('\n //// mining stopped my new block, proceeding with duties \n')
-                mining = True
-
-            did_mine_block = False
-
+        
         for reply in con:
-            # if i send back my port do i ever need to do it again? first ping to network - receive - send back my port
-            if reply.isdigit():
-                found = False
-                for index, item in enumerate(connections):
-                    if item['ip'] == con.addr:
-                        item['port'] = reply
-                        found = True
-                        print('\n //// Found ip in my connections!\n')
 
-                if not found:
+            if reply.isdigit():
+                found_here = search_for_connection(reply, con.addr)
+
+                if not found_here:
                     print('\n //// Adding connection to connections\n')
                     connections.append({'ip': con.addr, 'port': reply, 'length': 0})
-                    #con.send_line(port)
 
             elif ';' in reply:
                 blocks = reply.split(';')
@@ -232,22 +182,22 @@ while 1:
                 r = requests.post('http://0.0.0.0:'+port+'/validate', json = {'this_block': blocks[0], 'last_block': blocks[1]}, headers=headers)
                 print('\n //// response from validate:\n')
                 print(r.text)
+
                 if json.loads(r.text)['add']:
-                    just_sent_out_valid = True
                     print('\n //// sending out that the block is valid')
                     con.send_line(port+':validated'+json.loads(blocks[0])['node'])
                 else:
                     print('\n //// sending out that the block is invalid')
                     con.send_line(port+':invalid'+json.loads(blocks[0])['node'])
 
-            elif 'mining stopped by new block' != json.loads(mined_block)['message']:
+            elif json.loads(mined_block)['message'] != 'stopped' and mined_block != '':
                 if ('validated'+json.loads(mined_block)['node']) in reply:
                     replies.append(reply)
                     print('\n //// received validated message\n')
                     print(str(len(replies)) + ': replies\n')
                     print(str(len(connections)) + ': connections\n')
 
-                    if len(replies) == len(connections):
+                    if len(replies) > int(len(connections) * .5):
                         mining = True
                         replies = []
                         print('\n //// I am fully validated ////\n')
@@ -266,24 +216,59 @@ while 1:
 
                     if len(invalid_replies) > int(len(connections) * .5):
                         invalid_replies = []
-
-                        if json.loads(results[0].content.decode())['length'] - json.loads(results[1].content.decode())['length'] > 0:
-                            print('\n //// I have an invalid block ////\n')
-                            r = requests.get('http://0.0.0.0:'+port+'/subtract_block')
-                            if json.loads(r.text)['result'] == 'block removed':
-                                print('\n //// block removed\n')
-                                mining = True
-
-                        elif json.loads(results[0].content.decode())['length'] - json.loads(results[1].content.decode())['length'] == 0:
-                            print('\n //// I have an invalid block ////\n')
-                            r = requests.get('http://0.0.0.0:'+port+'/subtract_block')
-                            if json.loads(r.text)['result'] == 'block removed':
-                                print('\n //// block removed\n')
-                                mining = False
-                                i_need_the_chain = True
-                        #elif json.loads(results[0].content.decode())['length'] - json.loads(results[1].content.decode())['length']
-                        else:
+                        print('\n //// I have an invalid block ////\n')
+                        r = requests.get('http://0.0.0.0:'+port+'/subtract_block')
+                        if json.loads(r.text)['result'] == 'block removed':
+                            print('\n //// block removed\n')
+                            mining = True
                             i_need_the_chain = True
-                            mining = False
 
+    if i_need_the_chain:
+        r = requests.get('http://0.0.0.0:'+port+'/previous')
+        previous_block = r.text
+        result = put_chains_together()
+
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+        r = requests.post('http://0.0.0.0:'+port+'/add_chain', json = {'chain': result}, headers=headers)
+        print("\n ////new_chain_length_and_chain\n")
+        print(r.text)
+
+        i_need_the_chain = False
+        mining = True
+
+    #### MINING ####
+    if (mining and not i_need_the_chain) or not (len(node.inbound) > len(connections)):
+        reqs = [
+            grequests.get('http://0.0.0.0:'+port+'/previous'),
+            grequests.get('http://0.0.0.0:'+port+'/mine')
+        ]
+
+        results = grequests.map(reqs, exception_handler=exception_handler)
+
+        previous_block = results[0].content.decode()
+        mined_block = results[1].content.decode()
+
+        print('\n //// next to last block mined\n')
+        print(previous_block)
+        print('\n //// last block mined\n')
+        print(mined_block)
+
+        array = []
+        for item in connections:
+            array.append(grequests.get('http://'+item['ip']+':'+item['port']+'/set_break_cycle'))
+        
+        results = grequests.map(array, exception_handler=exception_handler)
+
+        for c in node:
+            c.send_line(mined_block+';'+previous_block+';'+port)
+
+        #array1 = []
+        #for item in connections:
+        #    array1.append(grequests.get('http://'+item['ip']+':'+item['port']+'/set_break_cycle'))
+        #
+        #results1 = grequests.map(array, exception_handler=exception_handler)
+        
+        mining = False
+        
     time.sleep(1)
+

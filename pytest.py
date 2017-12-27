@@ -1,15 +1,49 @@
 import json
+from pprint import pprint
 
-i = 1
+i = 2
 f = open('blockchain.txt')
-prev_line = '{"timestamp":0}'
+prev_line = ""
+node1 = ''
+n1count = 0
+n2count = 0
+n3count = 0
+node2 = ''
+node3 = ''
+discovered = False
 for line in f.readlines():
-    print(line)
-    if i != json.loads(line)['index']:
-        print(f'\n //// something is wrong indexes dont match, index: {i}')
-        break
-    if json.loads(prev_line)['timestamp'] >= json.loads(line)['timestamp']:
-        print(f'\n //// something is wrong the timestamps are out of order at index: {i}')
-        break
-    i += 1
-    prev_line = line
+	if json.loads(line)['index'] > 1:
+	    pprint(json.loads(line))
+	    if prev_line != '' and json.loads(line)['transactions'][0]['recipient'] != json.loads(prev_line)['transactions'][0]['recipient'] and not discovered:
+	    	node1 = json.loads(prev_line)['transactions'][0]['recipient']
+	    	node2 = json.loads(line)['transactions'][0]['recipient']
+	    	discovered = True
+
+	    if json.loads(line)['transactions'][0]['recipient'] != node1 and json.loads(line)['transactions'][0]['recipient'] != node2:
+	    	node3 = json.loads(line)['transactions'][0]['recipient']
+
+	    if i != json.loads(line)['index']:
+	        print(f'\n //// something is wrong indexes dont match, index: {i}')
+	        break
+
+	    if json.loads(line)['transactions'][0]['recipient'] == node1:
+	    	n1count+=1
+
+	    if json.loads(line)['transactions'][0]['recipient'] == node2:
+	    	n2count+=1
+
+	    if json.loads(line)['transactions'][0]['recipient'] == node3:
+	    	n3count+=1
+
+	    i += 1
+	    prev_line = line
+
+print('\n //// node1:\n')
+print(node1)
+print(str(n1count))
+print('\n //// node2:\n')
+print(node2)
+print(str(n2count))
+print('\n //// node3:\n')
+print(node3)
+print(str(n3count))

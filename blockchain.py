@@ -78,8 +78,6 @@ class Blockchain(object):
             if not self.break_cycle:
                 proof += 1
             else:
-                proof = 'stopped'
-                self.break_cycle = False
                 break
 
         return proof
