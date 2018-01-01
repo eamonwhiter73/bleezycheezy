@@ -221,7 +221,6 @@ while 1:
                 if not found:
                     print('\n //// Adding connection to connections\n')
                     connections.append({'ip': con.addr, 'port': reply, 'length': 0})
-                    #con.send_line(port)
 
             elif ';' in reply:
                 blocks = reply.split(';')

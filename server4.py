@@ -48,11 +48,7 @@ def mine():
     last_proof = last_block['proof']
     proof = blockchain.proof_of_work(last_proof)
 
-    if proof == 'stopped':
-
-        return jsonify({ 'message': 'stopped' }), 200
-
-    else:
+    if proof != 'stopped':
         # We must receive a reward for finding the proof.
         # The sender is "0" to signify that this node has mined a new coin.
         blockchain.new_transaction(
@@ -75,6 +71,9 @@ def mine():
         }
 
         return jsonify(response), 200
+
+    else:
+        return jsonify({'message': 'miner off'}), 200
 
 @app.route('/transactions/new', methods=['POST'])
 def new_transaction():
@@ -104,19 +103,22 @@ def validate():
     this_block = json.loads(request.get_json()['this_block'])
     last_block = json.loads(request.get_json()['last_block'])
 
-    if blockchain.valid_proof(last_block['proof'], this_block['proof']):
-        if this_block['index'] - blockchain.chain[-1]['index'] == 1:
-            blockchain.chain.append(this_block)
-            response = { 'add': True }
-
-        elif this_block['index'] - blockchain.chain[-1]['index'] > 1:
-            response = { 'add': True }
-
-        elif this_block['index'] == blockchain.chain[-1]['index']:
-            if this_block['timestamp'] < blockchain.chain[-1]['timestamp']:
-                blockchain.subtract_block()
+    if this_block['message'] != 'miner off' and this_block['proof'] != 'stopped':
+        if blockchain.valid_proof(last_block['proof'], this_block['proof']):
+            if this_block['index'] - blockchain.chain[-1]['index'] == 1:
                 blockchain.chain.append(this_block)
-                response = { 'add': True }
+                response = { 'add': True, 'to_chain': True }
+
+            elif this_block['index'] - blockchain.chain[-1]['index'] > 1:
+                response = { 'add': True, 'to_chain': False }
+
+            elif this_block['index'] == blockchain.chain[-1]['index']:
+                if this_block['timestamp'] < blockchain.chain[-1]['timestamp']:
+                    blockchain.subtract_block()
+                    blockchain.chain.append(this_block)
+                    response = { 'add': True, 'to_chain': False }
+                else:
+                    response = { 'add': False }
             else:
                 response = { 'add': False }
         else:
@@ -226,6 +228,17 @@ def set_break_cycle():
 
     response = {
         'message': 'set_break_cycle used'
+    }
+
+    return jsonify(response), 200
+
+@app.route('/set_close_cycle', methods=['GET'])
+def set_close_cycle():
+
+    blockchain.set_close_cycle()
+
+    response = {
+        'message': 'set_close_cycle used'
     }
 
     return jsonify(response), 200

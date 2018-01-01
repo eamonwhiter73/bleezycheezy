@@ -1,5 +1,6 @@
 import json
 from pprint import pprint
+import filecmp
 
 i = 2
 f = open('blockchain.txt')
@@ -19,7 +20,7 @@ for line in f.readlines():
 	    	node2 = json.loads(line)['transactions'][0]['recipient']
 	    	discovered = True
 
-	    if json.loads(line)['transactions'][0]['recipient'] != node1 and json.loads(line)['transactions'][0]['recipient'] != node2:
+	    if json.loads(line)['transactions'][0]['recipient'] != node1 and json.loads(line)['transactions'][0]['recipient'] != node2 and discovered:
 	    	node3 = json.loads(line)['transactions'][0]['recipient']
 
 	    if i != json.loads(line)['index']:
@@ -47,3 +48,11 @@ print(str(n2count))
 print('\n //// node3:\n')
 print(node3)
 print(str(n3count))
+
+x = filecmp.cmp('blockchain.txt', 'blockchain1.txt')
+print(str(x))
+
+x = filecmp.cmp('blockchain.txt', 'blockchain2.txt')
+print(str(x))
+
+f.close()
