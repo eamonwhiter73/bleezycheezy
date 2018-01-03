@@ -18,6 +18,11 @@ connections = []
 former_connections_length = 0
 invalid_replies = []
 first_time = True
+mined_block = ''
+previous_block = ''
+allow_mining = False
+length = 0
+index_in = 0
 
 def exception_handler(request, exception):
     print("Request failed")
@@ -29,11 +34,25 @@ while 1:
         except ValueError:
             print('adding connection...')
             connections.append(con.addr)
-            
+        
         for reply in con:
-            print(reply)
+            if reply.isdigit():
+                r_length = requests.get("http://0.0.0.0:5000/chain_length")
+                length = json.loads(r_length.text)['length']
+                if int(reply) > index_in:
+                    index_in = int(reply)
+
+    print('\n //// in reply looking at my length')
+    print(str(length))
+    print(str(index_in))
+
+    if length <= index_in:
+        r = requests.get("http://0.0.0.0:5000/start_mining")
+    else:
+        r = requests.get("http://0.0.0.0:5000/stop_mining")
 
     if len(connections) > former_connections_length:
+        print('\n //// inside about to register\n')
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         r = requests.post('http://0.0.0.0:5000/nodes/register', json = {'nodes': [connections[-1]]}, headers=headers)
 
@@ -45,46 +64,75 @@ while 1:
         print(r.text)
         first_time = False
 
-    reqs = [
-        grequests.get('http://0.0.0.0:5000/last_block'),
-        grequests.get('http://0.0.0.0:5000/mine')
-    ]
+    print('\n //// mined_block before entering mining zone\n')
+    print(mined_block)
+    if not mined_block or ('mining stopped' != json.loads(mined_block)['message']) or allow_mining:
 
-    results = grequests.map(reqs, exception_handler=exception_handler)
+        print('\n //// MINE MINE MINE\n')
 
-    previous_block = results[0].content.decode()
-    mined_block = results[1].content.decode()
+        reqs = [
+            grequests.get('http://0.0.0.0:5000/previous_block'),
+            grequests.get('http://0.0.0.0:5000/mine')
+        ]
 
-    print('\n //// last_block')
-    print(results[0].content.decode())
-    print('\n //// mined_block')
-    print(results[1].content.decode())
-    print('\n //// chain')
-    r = requests.get('http://0.0.0.0:5000/chain')
-    pprint(json.loads(r.text)['chain'])
+        results_mining = grequests.map(reqs, exception_handler=exception_handler)
 
-    reqs = []
-    for connection in connections:
-        reqs.append(grequests.get("http://"+connection+":5000/valid_chain", params = { 'prev_block': previous_block, 'block': mined_block }))
+        previous_block = results_mining[0].content.decode()
+        mined_block = results_mining[1].content.decode()
 
-    results = grequests.map(reqs, exception_handler=exception_handler)
+        print('\n //// last_block')
+        print(results_mining[0].content.decode())
+        print('\n //// mined_block')
+        print(results_mining[1].content.decode())
 
-    valid = True
-    for result in results:
-        print('\n //// result in results')
-        print(result.content.decode())
-        if not json.loads(result.content.decode())['valid']:
-            invalid_replies.append(json.loads(result.content.decode())['valid'])
+        reqs = []
+        for connection in connections:
+            reqs.append(grequests.get("http://"+connection+":5000/valid_chain", params = { 'prev_block': previous_block, 'block': mined_block }))
+            reqs.append(grequests.get("http://"+connection+":5000/stop_mining"))
 
-        if len(invalid_replies) > .5 * len(results):
-            print('\n //// block subtracted')
-            r = requests.delete('http://0.0.0.0:5000/subtract_block')
-            valid = False
-            break
+        results = grequests.map(reqs, exception_handler=exception_handler)
 
-    if valid:
-        print('\n //// block validated')
+        tally = 0
+        for result in results:
+            print('\n //// result in results')
+            if result is not None and json.loads(result.content.decode())['message'] != 'mining stopped':
+                print(result.content.decode())
+                if json.loads(result.content.decode())['valid'] == 'reject':
+                    r = requests.get("http://0.0.0.0:5000/valid_chain", params = { 'prev_block': json.loads(result.content.decode())['prev_block'], 'block': json.loads(result.content.decode())['block_to_add'] })
+                    print('\n //// reject in valid')
+
+                    if length == index_in:
+                        r = requests.get('http://0.0.0.0:5000/start_mining')
+                
+                elif not json.loads(result.content.decode())['valid']:
+                    tally += 1
+
+                if tally > .5 * len(results):
+                    print('\n //// block subtracted')
+                    r = requests.delete('http://0.0.0.0:5000/subtract_block')
+                    if json.loads(result.content.decode())['block_to_add']:
+                        r = requests.get("http://0.0.0.0:5000/valid_chain", params = { 'prev_block': json.loads(result.content.decode())['prev_block'], 'block': json.loads(result.content.decode())['block_to_add'] })
+                    #add his block
+                    break
+
+            for c in node:
+                if json.loads(results_mining[1].content.decode())['message'] != 'mining stopped':
+                    c.send_line(str(json.loads(results_mining[1].content.decode())['index']))
+                    print('\n //// index of mined block')
+                    print(str(json.loads(results_mining[1].content.decode())['index']))
+                else:
+                    c.send_line(str(length))
+                    print('\n //// length of chain instead')
+                    print(str(length))
+                    print
+
+        #reqs = []
+        #for connection in connections:
+        #    reqs.append(grequests.get("http://"+connection+":5000/start_mining"))
+
+        #results = grequests.map(reqs, exception_handler=exception_handler)
+
     else:
-        print('\n //// block invalid')
+        allow_mining = True
 
     time.sleep(1) 

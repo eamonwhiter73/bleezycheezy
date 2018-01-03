@@ -36,6 +36,10 @@ for line in f.readlines():
 	    if json.loads(line)['transactions'][0]['recipient'] == node3:
 	    	n3count+=1
 
+	    if prev_line != '' and (json.loads(line)['timestamp'] <= json.loads(prev_line)['timestamp']):
+	    	print(f'\n //// something is wrong with the timestamps: {i}')
+	    	break
+
 	    i += 1
 	    prev_line = line
 

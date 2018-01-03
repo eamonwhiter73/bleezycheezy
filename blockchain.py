@@ -4,13 +4,17 @@ from textwrap import dedent
 from time import time
 from uuid import uuid4
 import requests
+import ntplib
+from time import ctime
+from pprint import pprint
 
 class Blockchain(object):
     def __init__(self):
         self.current_transactions = []
         self.chain = []
-
+        self.stop = False
         self.nodes = set()
+        self.c = ntplib.NTPClient()
         # Create the genesis block
         self.new_block(previous_hash=1, proof=100)
 
@@ -28,17 +32,57 @@ class Blockchain(object):
         :param chain: <list> A blockchain
         :return: <bool> True if valid, False if not
         """
-        if block['previous_hash'] != self.hash(prev_block):
-            print('\nfalse in previous hash\n')
+        self.stop_mine()
+
+        print('\n //// MINING STOPPED\n')
+
+        print('\n //// block entering valid_chain')
+        pprint(block)
+
+        if block is not None and block['message'] != 'mining stopped':
+            if block['previous_hash'] == self.hash(prev_block):
+                
+                # Check that the Proof of Work is correct
+                if self.valid_proof(prev_block['proof'], block['proof']):
+                    if block['index'] == self.last_block['index']:
+                        if self.last_block['timestamp'] > block['timestamp']:
+                            del self.chain[-1]
+                            self.chain.append(block)
+                            print('\n //// true from equal index but older timestamp')
+                            return True
+
+                        elif self.last_block['timestamp'] == block['timestamp']:
+                            print('\n //// true from timestamps are equal block isnt added')
+                            return True
+                        else:
+                            print('\n //// true timestamp is newer not added but sending false')
+
+                    elif block['index'] > self.last_block['index']:
+                        print('\n //// true from index is greater and block is added')
+                        self.chain.append(block)
+                        return True
+                    else:
+                        print('\n //// false from adding block had index less than block already there')
+                else:
+                    print('\n //// false from not a valid proof')
+
+            else:
+                print('\n //// false from hashes arent equal')
+                if (block['timestamp'] < self.last_block['timestamp']):
+                    if (block['index'] == self.last_block['index']):
+                        print('\n //// hashes arent equal but block is older, subtracting and adding')
+                        del self.chain[-1]
+                        self.chain.append(block)
+                        return True
+                    elif (block['index'] > self.last_block['index']):
+                        self.chain.append(block)
+                        return True
+                    
+
             return False
 
-        # Check that the Proof of Work is correct
-        if not self.valid_proof(prev_block['proof'], block['proof']):
-            return False
-            print('\nfalse in valid_proof\n')
-        else:
-            self.chain.append(block)
-            return True
+        return 'reject'
+            
 
     def resolve_conflicts(self):
         """
@@ -80,10 +124,31 @@ class Blockchain(object):
         :param previous_hash: (Optional) <str> Hash of previous Block
         :return: <dict> New Block
         """
+        servers = [
+            "1.us.pool.ntp.org",
+            "2.us.pool.ntp.org",
+            "3.us.pool.ntp.org"
+        ]
+
+        response = {}
+
+        try:
+            response = self.c.request('0.us.pool.ntp.org')
+        except Exception:
+            for server in servers:
+                try:
+                    response = self.c.request(server)
+
+                    if response:
+                        break
+
+                except Exception:
+                    print('\n //// alternate ntp server didnt work')
 
         block = {
+            'message': 'New Block Forged',
             'index': len(self.chain) + 1,
-            'timestamp': time(),
+            'timestamp': response.tx_time or time(),
             'transactions': self.current_transactions,
             'proof': proof,
             'previous_hash': previous_hash or self.chain[-1]['hash'],
@@ -113,6 +178,12 @@ class Blockchain(object):
         })
 
         return self.last_block['index'] + 1
+
+    def stop_mine(self):
+        self.stop = True
+
+    def start_mine(self):
+        self.stop = False
 
     @property
     def last_block(self):
@@ -154,7 +225,10 @@ class Blockchain(object):
 
         proof = 0
         while self.valid_proof(last_proof, proof) is False:
-            proof += 1
+            if not self.stop:
+                proof += 1
+            else:
+                break
 
         print(dedent(f'''
             New Proof found!

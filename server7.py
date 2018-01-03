@@ -5,6 +5,16 @@ from time import time
 from uuid import uuid4
 from flask import Flask, jsonify, request
 from pprint import pprint
+import atexit
+
+def exit_handler():
+    prev_block = {'index': 0}
+    with open('blockchain.txt', 'w') as text_file:
+        text_file.truncate()
+        for index, block in enumerate(blockchain.chain):
+            print(json.dumps(block), file=text_file)
+
+atexit.register(exit_handler)
 
 # Instantiate our Node
 app = Flask(__name__)
@@ -14,6 +24,18 @@ node_identifier = str(uuid4()).replace('-', '')
 
 # Instantiate the Blockchain
 blockchain = Blockchain()
+
+first_time = True
+f = open('blockchain.txt')
+for line in f.readlines():
+    if first_time:
+        blockchain.chain = []
+        first_time = False
+        
+    print('loading chain...')
+    blockchain.chain.append(json.loads(line))
+
+f.close()
 
 @app.route('/nodes/register', methods=['POST'])
 def register_nodes():
@@ -59,27 +81,35 @@ def mine():
 
     # We must receive a reward for finding the proof.
     # The sender is "0" to signify that this node has mined a new coin.
-    blockchain.new_transaction(
-        sender="0",
-        recipient=node_identifier,
-        amount=1,
-    )
+    if proof > 0:
+        blockchain.new_transaction(
+            sender="0",
+            recipient=node_identifier,
+            amount=1,
+        )
 
-    # Forge the new Block by adding it to the chain
-    previous_hash = blockchain.hash(last_block)
-    block = blockchain.new_block(proof, previous_hash)
+        # Forge the new Block by adding it to the chain
+        previous_hash = blockchain.hash(last_block)
+        block = blockchain.new_block(proof, previous_hash)
 
-    response = {
-        'message': "New Block Forged",
-        'index': block['index'],
-        'transactions': block['transactions'],
-        'proof': block['proof'],
-        'previous_hash': block['previous_hash'],
-    }
-    return jsonify(response), 200
+        response = {
+            'message': "New Block Forged",
+            'index': block['index'],
+            'transactions': block['transactions'],
+            'proof': block['proof'],
+            'previous_hash': block['previous_hash'],
+            'timestamp': block['timestamp']
+        }
+        return jsonify(response), 200
+
+    else:
+        return jsonify({'message': 'mining stopped'}), 200
 
 @app.route('/valid_chain', methods=['GET'])
 def valid_chain():
+    print('\n //// last 5 in chain\n')
+    pprint(blockchain.chain)
+
     prev_block = request.args.get('prev_block')
     block = request.args.get('block')
 
@@ -89,7 +119,14 @@ def valid_chain():
 
     is_valid = blockchain.valid_chain(json.loads(block), json.loads(prev_block))
 
-    response = { 'valid': is_valid }
+    print('\n //// valid or not and the block to add if needed')
+    print(str(is_valid))
+    pprint(blockchain.chain[-1])
+
+    if len(blockchain.chain) > 1:
+        response = { 'valid': is_valid, 'block_to_add': json.dumps(blockchain.chain[-1]), 'prev_block': json.dumps(blockchain.chain[-2]), 'message': 'validity check' }
+    else:
+        response = { 'valid': is_valid, 'block_to_add': json.dumps(blockchain.chain[-1]), 'prev_block': json.dumps(blockchain.chain[-1]), 'message': 'validity check' }
 
     return jsonify(response), 200
 
@@ -112,12 +149,35 @@ def new_transaction():
 def full_chain():
     response = {
         'chain': blockchain.chain,
-        'length': len(blockchain.chain),
+        'length': len(blockchain.chain)
     }
     return jsonify(response), 200
 
-@app.route('/last_block', methods=['GET'])
-def last_block():
+@app.route('/chain_length', methods=['GET'])
+def chain_length():
+    response = {
+        'length': len(blockchain.chain)
+    }
+    return jsonify(response), 200
+
+@app.route('/start_mining', methods=['GET'])
+def start_mining():
+    blockchain.start_mine()
+    response = {
+        'message': 'mining started'
+    }
+    return jsonify(response), 200 
+
+@app.route('/stop_mining', methods=['GET'])
+def stop_mining():
+    blockchain.stop_mine()
+    response = {
+        'message': 'mining stopped'
+    }
+    return jsonify(response), 200 
+
+@app.route('/previous_block', methods=['GET'])
+def previous_block():
     return jsonify(blockchain.last_block), 200
 
 @app.route('/subtract_block', methods=['DELETE'])
