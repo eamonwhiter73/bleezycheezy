@@ -56,6 +56,7 @@ class Blockchain(object):
                             return True
                         else:
                             print('\n //// true timestamp is newer not added but sending false')
+                            return False
 
                     elif block['index'] > self.last_block['index']:
                         print('\n //// true from index is greater and block is added')
@@ -74,14 +75,18 @@ class Blockchain(object):
                         del self.chain[-1]
                         self.chain.append(block)
                         return True
-                    elif (block['index'] > self.last_block['index']):
+
+                elif (block['timestamp'] > self.last_block['timestamp']):
+                    if(block['index'] > self.last_block['index']):
                         self.chain.append(block)
                         return True
-                    
+                else:
+                    return True
 
             return False
 
-        return 'reject'
+        else:
+            return 'reject'
             
 
     def resolve_conflicts(self):

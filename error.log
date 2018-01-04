@@ -34255,3 +34255,399 @@ Traceback (most recent call last):
     raise socket.error("Socket connect failed.")
 OSError: Socket connect failed.
  <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 290, in connect
+    r = getaddrinfo(address[0], address[1], self.family)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socketcommon.py", line 288, in getaddrinfo
+    return get_hub().resolver.getaddrinfo(host, port, family, type, proto, flags)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/resolver_thread.py", line 65, in getaddrinfo
+    return self.pool.apply(_socket.getaddrinfo, args, kwargs)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/pool.py", line 325, in apply
+    return self.spawn(func, *args, **kwds).get()
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/event.py", line 382, in get
+    self._wait_core(timeout, ())
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/event.py", line 106, in _wait_core
+    result = self.hub.switch()
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/hub.py", line 629, in switch
+    switch_out()
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/hub.py", line 633, in switch_out
+    raise BlockingSwitchOutError('Impossible to call blocking function in the event loop callback')
+gevent.hub.BlockingSwitchOutError: Impossible to call blocking function in the event loop callback
+ <class 'gevent.hub.BlockingSwitchOutError'> sock.py 195 Impossible to call blocking function in the event loop callback
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+ <class 'ConnectionRefusedError'> sock.py 195 [Errno 61] Connection refused
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 195, in connect
+    self.s.connect((addr, int(port)))
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/gevent/_socket3.py", line 300, in connect
+    raise error(err, strerror(err))
+ConnectionRefusedError: [Errno 61] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/net.py", line 445, in add_node
+    timeout=timeout, interface=self.interface)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 90, in __init__
+    self.connect(addr, port)
+  File "/Users/eamonwhite/.pyenv/versions/3.6.3/lib/python3.6/site-packages/pyp2p/sock.py", line 203, in connect
+    raise socket.error("Socket connect failed.")
+OSError: Socket connect failed.
+ <class 'OSError'> net.py 445 Socket connect failed.

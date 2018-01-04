@@ -28,6 +28,9 @@ def exception_handler(request, exception):
     print("Request failed")
 
 while 1:
+    r_length = requests.get("http://0.0.0.0:5000/chain_length")
+    length = json.loads(r_length.text)['length']
+
     for con in node:
         try:
             connections.index(con.addr)
@@ -37,8 +40,6 @@ while 1:
         
         for reply in con:
             if reply.isdigit():
-                r_length = requests.get("http://0.0.0.0:5000/chain_length")
-                length = json.loads(r_length.text)['length']
                 if int(reply) > index_in:
                     index_in = int(reply)
 
@@ -85,10 +86,15 @@ while 1:
         print('\n //// mined_block')
         print(results_mining[1].content.decode())
 
+        arr = []
+        for connection in connections:
+            arr.append(grequests.get("http://"+connection+":5000/stop_mining"))
+
+        results = grequests.map(arr, exception_handler=exception_handler)
+
         reqs = []
         for connection in connections:
             reqs.append(grequests.get("http://"+connection+":5000/valid_chain", params = { 'prev_block': previous_block, 'block': mined_block }))
-            reqs.append(grequests.get("http://"+connection+":5000/stop_mining"))
 
         results = grequests.map(reqs, exception_handler=exception_handler)
 
@@ -98,8 +104,11 @@ while 1:
             if result is not None and json.loads(result.content.decode())['message'] != 'mining stopped':
                 print(result.content.decode())
                 if json.loads(result.content.decode())['valid'] == 'reject':
-                    r = requests.get("http://0.0.0.0:5000/valid_chain", params = { 'prev_block': json.loads(result.content.decode())['prev_block'], 'block': json.loads(result.content.decode())['block_to_add'] })
-                    print('\n //// reject in valid')
+                    print('\n //// block_to_add')
+                    print(json.loads(result.content.decode())['block_to_add'])
+                    if length < json.loads(json.loads(result.content.decode())['block_to_add'])['index']:
+                        r = requests.get("http://0.0.0.0:5000/valid_chain", params = { 'prev_block': json.loads(result.content.decode())['prev_block'], 'block': json.loads(result.content.decode())['block_to_add'] })
+                        print('\n //// reject in valid')
 
                     if length == index_in:
                         r = requests.get('http://0.0.0.0:5000/start_mining')
